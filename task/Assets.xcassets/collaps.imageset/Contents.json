@@ -2,17 +2,15 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "contributionProduct.jpg",
+      "filename" : "collaps.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "contributionProduct@2x.jpg",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "contributionProduct@3x.jpg",
       "scale" : "3x"
     }
   ],

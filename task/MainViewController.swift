@@ -7,107 +7,123 @@
 //
 
 import UIKit
+import QuartzCore
+
+struct cellData {
+    var opened = Bool()
+    var title = String()
+    var sectionData = [String]()
+    var image = String()
+    var cashBalance = [String]()
+}
+
 
 class MainViewController: UITableViewController {
     
+    
+    let networkService = NetworkService()
+    var balanceResponse: [BalanceResponse?] = []
+    var tableViewData = [cellData]()
+    
     let titles = ["Кредиты", "Вклады"]
-    let creditProduct = ["Выплата заработной платы", "ПОТРЕБИТЕЛЬСКИЙ КРЕДИТ"]
+    let creditProduct = ["выплата заработной платы", "ПОТРЕБИТЕЛЬСКИЙ КРЕДИТ"]
     let contributionProduct = ["ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ"]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.navigationController?.navigationBar.barStyle = UIBarStyle.blackTranslucent
-        self.navigationController?.navigationBar.barTintColor  = UIColor.orange
+        self.navigationController?.navigationBar.barTintColor = UIColor.orange
         navigationItem.title = "Главная"
 
-    }
     
+        let urlString = "https://next.json-generator.com/api/json/get/VJrb6Ut_O"
+        
+        networkService.request(urlString: urlString) { (balanceResponse, error) in
+            self.balanceResponse = balanceResponse!
+            
+            for value in balanceResponse!  {
+               
+                var credit = [String]()
+                var contribution = [String]()
+
+                for value in value.creditValues {
+                    credit.append(value.cashBalance)
+                    credit.append(value.creditBalance)
+                }
+                
+                for value in value.contributionValues {
+                    contribution.append(value.contributionInRUB)
+                    contribution.append(value.contributionInUSD)
+                    contribution.append(value.contributionInEUR)
+                }
+                
+                
+                self.tableViewData = [cellData(opened: false, title: self.titles[0], sectionData: self.creditProduct, image: "creditProduct", cashBalance: credit),
+                                      cellData(opened: false, title: self.titles[1], sectionData: self.contributionProduct, image: "contributionProduct", cashBalance: contribution)]
+            }
+            
+            
+            self.tableView.reloadData()
+        }
+    }
+
     
     // MARK: - Table view data source
+
     
-    override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Title", for: indexPath)
-        if indexPath.row == 0 {
-            print(cell.frame.width-cell.frame.width-15.0)
-            return Int(cell.frame.width-cell.frame.width-15.0)
-        }
-        else{
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return tableViewData.count
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableViewData[section].opened == true {
+            return tableViewData[section].sectionData.count + 1
+        } else {
             return 1
         }
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 66
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch (section) {
-        case 0:
-            return 3
-        case 1:
-            return 4
-        default:
-            return 0
-        }
-    }
-
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch (indexPath.section) {
-        case 0:
-            switch (indexPath.row) {
-            case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Title", for: indexPath)
-                cell.textLabel?.text = titles[0]
-                return cell
-            case 1:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Product", for: indexPath)
-                cell.textLabel?.text = creditProduct[0]
-                cell.imageView?.image = UIImage(named: "creditProduct")
-                return cell
-            case 2:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Product", for: indexPath)
-                cell.textLabel?.text = creditProduct[1]
-                cell.imageView?.image = UIImage(named: "creditProduct")
-                return cell
-            default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath)
-                return cell
+        let currentIndexPath = indexPath.row - 1
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Title")
+            cell?.textLabel?.text = tableViewData[indexPath.section].title
+            cell?.accessoryView = UIImageView(image: UIImage(named:"collaps"))
+            if tableViewData[indexPath.section].opened == true {
+                cell?.accessoryView?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi)
             }
-        case 1:
-            switch (indexPath.row) {
-            case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Title", for: indexPath)
-                cell.textLabel?.text = titles[1]
-                return cell
-            case 1:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Product", for: indexPath)
-                cell.textLabel?.text = contributionProduct[0]
-                cell.imageView?.image = UIImage(named: "contributionProduct")
-                cell.detailTextLabel?.text = "Бессрочный"
-                return cell
-            case 2:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Product", for: indexPath)
-                cell.textLabel?.text = contributionProduct[1]
-                cell.imageView?.image = UIImage(named: "contributionProduct")
-                cell.detailTextLabel?.text = "Бессрочный"
-                return cell
-            case 3:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Product", for: indexPath)
-                cell.textLabel?.text = contributionProduct[2]
-                cell.imageView?.image = UIImage(named: "contributionProduct")
-                cell.detailTextLabel?.text = "Бессрочный"
-                return cell
-            default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath)
-                return cell
-            }
-        default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath)
+            cell?.imageView?.image = nil
+            return cell!
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Product") as! CustomProductCell
+            cell.productName?.text = tableViewData[indexPath.section].sectionData[currentIndexPath]
+            cell.accessoryView = .none
+            cell.imageOfProduct?.image = UIImage(named: tableViewData[indexPath.section].image)
+//            cell.imageOfProduct.layer.cornerRadius = cell.imageOfProduct.frame.size.width / 2
+//            cell.imageOfProduct.clipsToBounds = true
+            cell.cashBalance?.text = tableViewData[indexPath.section].cashBalance[currentIndexPath]
             return cell
         }
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            if tableViewData[indexPath.section].opened == true {
+                tableViewData[indexPath.section].opened = false
+                let sections = IndexSet.init(integer: indexPath.section)
+                tableView.reloadSections(sections, with: .none)
+            } else {
+                tableViewData[indexPath.section].opened = true
+                let sections = IndexSet.init(integer: indexPath.section)
+                tableView.reloadSections(sections, with: .none)
+            }
+        }
+    }
+    
 }
-
