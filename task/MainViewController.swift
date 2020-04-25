@@ -92,22 +92,25 @@ class MainViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let currentIndexPath = indexPath.row - 1
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Title")
-            cell?.textLabel?.text = tableViewData[indexPath.section].title
-            cell?.accessoryView = UIImageView(image: UIImage(named:"collaps"))
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Title") as! CustomTitleCell
+            cell.titleLabel?.text = tableViewData[indexPath.section].title
+            cell.imageOfTitle?.image = UIImage(named:"arrow2")
             if tableViewData[indexPath.section].opened == true {
-                cell?.accessoryView?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi)
+                cell.imageOfTitle?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi)
+                cell.borderView.round(with: .top, radius: 10.0)
+            } else {
+                cell.borderView.round(with: .both, radius: 10.0)
             }
-            cell?.imageView?.image = nil
-            return cell!
+            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Product") as! CustomProductCell
             cell.productName?.text = tableViewData[indexPath.section].sectionData[currentIndexPath]
-            cell.accessoryView = .none
             cell.imageOfProduct?.image = UIImage(named: tableViewData[indexPath.section].image)
-//            cell.imageOfProduct.layer.cornerRadius = cell.imageOfProduct.frame.size.width / 2
-//            cell.imageOfProduct.clipsToBounds = true
             cell.cashBalance?.text = tableViewData[indexPath.section].cashBalance[currentIndexPath]
+            let lastRowInSection = tableViewData[indexPath.section].sectionData.count
+            if  indexPath.row == lastRowInSection {
+                cell.borderView.round(with: .bottom, radius: 10.0)
+            }
             return cell
         }
     }
