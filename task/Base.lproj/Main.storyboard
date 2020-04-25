@@ -34,25 +34,21 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ixj-v3-NXB">
-                                                    <rect key="frame" x="93" y="11.5" width="20" height="20"/>
-                                                </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" placeholderIntrinsicWidth="10" placeholderIntrinsicHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="E2H-Ho-472">
-                                                    <rect key="frame" x="98" y="16.5" width="10" height="10"/>
+                                                    <rect key="frame" x="98" y="14.5" width="15" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="15" id="h7Q-Cw-OXq"/>
+                                                        <constraint firstAttribute="width" constant="15" id="uqV-27-hlr"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="Ixj-v3-NXB" firstAttribute="width" secondItem="Je7-bN-H0B" secondAttribute="height" multiplier="5:11" id="Lzb-qf-Cmv"/>
-                                                <constraint firstItem="E2H-Ho-472" firstAttribute="centerY" secondItem="Ixj-v3-NXB" secondAttribute="centerY" id="RJB-bt-hIf"/>
-                                                <constraint firstAttribute="trailing" secondItem="Ixj-v3-NXB" secondAttribute="trailing" constant="232" id="ZCO-mf-xjh"/>
+                                                <constraint firstItem="E2H-Ho-472" firstAttribute="centerY" secondItem="Je7-bN-H0B" secondAttribute="centerY" id="Gch-dN-arR"/>
                                                 <constraint firstAttribute="bottom" secondItem="IdH-am-1XR" secondAttribute="bottom" constant="3.5" id="a7c-7u-BYS"/>
-                                                <constraint firstItem="E2H-Ho-472" firstAttribute="centerX" secondItem="Ixj-v3-NXB" secondAttribute="centerX" id="d4Q-pk-TTd"/>
                                                 <constraint firstItem="IdH-am-1XR" firstAttribute="leading" secondItem="Je7-bN-H0B" secondAttribute="leading" constant="8" id="egh-0Q-Jrq"/>
-                                                <constraint firstItem="Ixj-v3-NXB" firstAttribute="top" secondItem="Je7-bN-H0B" secondAttribute="top" constant="11.5" id="g9F-Pv-Y4i"/>
                                                 <constraint firstItem="IdH-am-1XR" firstAttribute="top" secondItem="Je7-bN-H0B" secondAttribute="top" constant="3.5" id="g9d-Fx-p8h"/>
-                                                <constraint firstAttribute="bottom" secondItem="Ixj-v3-NXB" secondAttribute="bottom" constant="12.5" id="iYz-A2-e4F"/>
-                                                <constraint firstItem="Ixj-v3-NXB" firstAttribute="leading" secondItem="IdH-am-1XR" secondAttribute="trailing" constant="8" id="jHU-6X-zTU"/>
+                                                <constraint firstItem="E2H-Ho-472" firstAttribute="leading" secondItem="IdH-am-1XR" secondAttribute="trailing" constant="13" id="kyI-Pm-XsW"/>
                                                 <constraint firstItem="IdH-am-1XR" firstAttribute="centerY" secondItem="Je7-bN-H0B" secondAttribute="centerY" id="o45-34-ZEb"/>
                                             </constraints>
                                         </view>
