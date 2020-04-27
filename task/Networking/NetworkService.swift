@@ -10,7 +10,7 @@ import Foundation
 
 class NetworkService {
     
-    func request(urlString: String, completion: @escaping ([BalanceResponse]?, Error?) -> Void) {
+    func request(urlString: String, completion: @escaping (Data?, Error?) -> Void) {
         guard let url = URL(string: urlString) else { return }
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
@@ -20,13 +20,7 @@ class NetworkService {
                     return
                 }
                 guard let data = data else { return }
-                do {
-                    let values = try JSONDecoder().decode([BalanceResponse].self, from: data)
-                    completion(values, nil)
-                } catch let jsonError {
-                    print("Failed to decode JSON", jsonError)
-                    completion(nil, jsonError)
-                }
+                completion(data, nil)
             }
         }.resume()
     }

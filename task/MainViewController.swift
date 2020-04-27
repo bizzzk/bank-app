@@ -7,28 +7,14 @@
 //
 
 import UIKit
-import QuartzCore
-
-struct cellData {
-    var opened = Bool()
-    var title = String()
-    var sectionData = [String]()
-    var image = String()
-    var cashBalance = [String]()
-}
-
 
 class MainViewController: UITableViewController {
     
     
-    let networkService = NetworkService()
+    let networkDataFetcher = NetworkDataFetcher()
     var balanceResponse: [BalanceResponse?] = []
     var tableViewData = [cellData]()
-    
-    let titles = ["Кредиты", "Вклады"]
-    let creditProduct = ["выплата заработной платы", "ПОТРЕБИТЕЛЬСКИЙ КРЕДИТ"]
-    let contributionProduct = ["ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ"]
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,15 +22,23 @@ class MainViewController: UITableViewController {
         self.navigationController?.navigationBar.barStyle = UIBarStyle.blackTranslucent
         self.navigationController?.navigationBar.barTintColor = UIColor.orange
         navigationItem.title = "Главная"
+        
+        setupCellData()
+
+    }
 
     
+    // MARK: - Table view data source
+    
+    func setupCellData() {
         let urlString = "https://next.json-generator.com/api/json/get/VJrb6Ut_O"
-        
-        networkService.request(urlString: urlString) { (balanceResponse, error) in
-            self.balanceResponse = balanceResponse!
-            
-            for value in balanceResponse!  {
-               
+
+        networkDataFetcher.fetchData(urlString: urlString) { (balanceResponse) in
+            guard let balanceResponse = balanceResponse else { return }
+            self.balanceResponse = balanceResponse
+
+            for value in balanceResponse  {
+
                 var credit = [String]()
                 var contribution = [String]()
 
@@ -52,25 +46,24 @@ class MainViewController: UITableViewController {
                     credit.append(value.cashBalance)
                     credit.append(value.creditBalance)
                 }
-                
+
                 for value in value.contributionValues {
                     contribution.append(value.contributionInRUB)
                     contribution.append(value.contributionInUSD)
                     contribution.append(value.contributionInEUR)
                 }
                 
-                
-                self.tableViewData = [cellData(opened: false, title: self.titles[0], sectionData: self.creditProduct, image: "creditProduct", cashBalance: credit),
-                                      cellData(opened: false, title: self.titles[1], sectionData: self.contributionProduct, image: "contributionProduct", cashBalance: contribution)]
+                let titles = ["Кредиты", "Вклады"]
+                let creditProduct = ["выплата заработной платы", "ПОТРЕБИТЕЛЬСКИЙ КРЕДИТ"]
+                let contributionProduct = ["ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ"]
+
+                self.tableViewData = [cellData(opened: false, title: titles[0], sectionData: creditProduct, image: "creditProduct", cashBalance: credit),
+                                      cellData(opened: false, title: titles[1], sectionData: contributionProduct, image: "contributionProduct", cashBalance: contribution)]
             }
-            
-            
+
             self.tableView.reloadData()
         }
     }
-
-    
-    // MARK: - Table view data source
 
     
     override func numberOfSections(in tableView: UITableView) -> Int {

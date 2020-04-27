@@ -17,8 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Title" rowHeight="44" id="yVD-cX-TSv" customClass="CustomTitleCell" customModule="task" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="first" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Title" rowHeight="44" id="yVD-cX-TSv" customClass="CustomTitleCell" customModule="task" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="yVD-cX-TSv" id="8Ng-EY-bPo">
@@ -70,7 +71,7 @@
                                     <outlet property="titleLabel" destination="IdH-am-1XR" id="pRp-Ra-KjZ"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Product" rowHeight="64" id="kAH-zE-ldO" customClass="CustomProductCell" customModule="task" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="second" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Product" rowHeight="64" id="kAH-zE-ldO" customClass="CustomProductCell" customModule="task" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="99.5" width="375" height="64"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kAH-zE-ldO" id="QGd-xK-sSI">
@@ -84,14 +85,14 @@
                                                     <rect key="frame" x="8" y="16.5" width="36" height="36"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="productName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMd-Ht-CWA">
-                                                    <rect key="frame" x="53" y="24" width="140" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                    <rect key="frame" x="53" y="24" width="192" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="cashBalance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zRe-lQ-FWf">
-                                                    <rect key="frame" x="240" y="24" width="97" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="250" y="24" width="87" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -106,7 +107,7 @@
                                                 <constraint firstItem="RMd-Ht-CWA" firstAttribute="leading" secondItem="glz-uP-n63" secondAttribute="trailing" constant="9" id="Kmq-rb-L8B"/>
                                                 <constraint firstAttribute="bottom" secondItem="zRe-lQ-FWf" secondAttribute="bottom" constant="19" id="UhO-UK-IEB"/>
                                                 <constraint firstAttribute="bottom" secondItem="glz-uP-n63" secondAttribute="bottom" constant="11.5" id="ee5-Fd-ydD"/>
-                                                <constraint firstItem="zRe-lQ-FWf" firstAttribute="leading" secondItem="RMd-Ht-CWA" secondAttribute="trailing" constant="47" id="n2n-IN-MCR"/>
+                                                <constraint firstItem="zRe-lQ-FWf" firstAttribute="leading" secondItem="RMd-Ht-CWA" secondAttribute="trailing" constant="5" id="n2n-IN-MCR"/>
                                                 <constraint firstItem="glz-uP-n63" firstAttribute="top" secondItem="qXV-d8-1CX" secondAttribute="top" constant="16.5" id="wLW-ar-DcC"/>
                                                 <constraint firstItem="zRe-lQ-FWf" firstAttribute="top" secondItem="qXV-d8-1CX" secondAttribute="top" constant="24" id="wWf-TG-35U"/>
                                             </constraints>
@@ -122,6 +123,7 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.9371148943901062" green="0.93698835372924805" blue="0.958759605884552" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <edgeInsets key="layoutMargins" top="8" left="15" bottom="8" right="15"/>
+                                <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                 <variation key="heightClass=regular-widthClass=regular">
                                     <edgeInsets key="layoutMargins" top="8" left="15" bottom="8" right="15"/>
                                 </variation>
