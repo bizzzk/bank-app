@@ -29,41 +29,6 @@ class MainViewController: UITableViewController {
 
     
     // MARK: - Table view data source
-    
-    func setupCellData() {
-        let urlString = "https://next.json-generator.com/api/json/get/VJrb6Ut_O"
-
-        networkDataFetcher.fetchData(urlString: urlString) { (balanceResponse) in
-            guard let balanceResponse = balanceResponse else { return }
-            self.balanceResponse = balanceResponse
-
-            for value in balanceResponse  {
-
-                var credit = [String]()
-                var contribution = [String]()
-
-                for value in value.creditValues {
-                    credit.append(value.cashBalance)
-                    credit.append(value.creditBalance)
-                }
-
-                for value in value.contributionValues {
-                    contribution.append(value.contributionInRUB)
-                    contribution.append(value.contributionInUSD)
-                    contribution.append(value.contributionInEUR)
-                }
-                
-                let titles = ["Кредиты", "Вклады"]
-                let creditProduct = ["выплата заработной платы", "ПОТРЕБИТЕЛЬСКИЙ КРЕДИТ"]
-                let contributionProduct = ["ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ"]
-
-                self.tableViewData = [cellData(opened: false, title: titles[0], sectionData: creditProduct, image: "creditProduct", cashBalance: credit),
-                                      cellData(opened: false, title: titles[1], sectionData: contributionProduct, image: "contributionProduct", cashBalance: contribution)]
-            }
-
-            self.tableView.reloadData()
-        }
-    }
 
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -119,6 +84,45 @@ class MainViewController: UITableViewController {
                 let sections = IndexSet.init(integer: indexPath.section)
                 tableView.reloadSections(sections, with: .none)
             }
+        }
+    }
+    
+}
+
+extension MainViewController {
+    
+    func setupCellData() {
+        let urlString = "https://next.json-generator.com/api/json/get/VJrb6Ut_O"
+        
+        networkDataFetcher.fetchData(urlString: urlString) { (balanceResponse) in
+            guard let balanceResponse = balanceResponse else { return }
+            self.balanceResponse = balanceResponse
+            
+            for value in balanceResponse  {
+                
+                var credit = [String]()
+                var contribution = [String]()
+                
+                for value in value.creditValues {
+                    credit.append(value.cashBalance)
+                    credit.append(value.creditBalance)
+                }
+                
+                for value in value.contributionValues {
+                    contribution.append(value.contributionInRUB)
+                    contribution.append(value.contributionInUSD)
+                    contribution.append(value.contributionInEUR)
+                }
+                
+                let titles = ["Кредиты", "Вклады"]
+                let creditProduct = ["выплата заработной платы", "ПОТРЕБИТЕЛЬСКИЙ КРЕДИТ"]
+                let contributionProduct = ["ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ"]
+                
+                self.tableViewData = [cellData(opened: false, title: titles[0], sectionData: creditProduct, image: "creditProduct", cashBalance: credit),
+                                      cellData(opened: false, title: titles[1], sectionData: contributionProduct, image: "contributionProduct", cashBalance: contribution)]
+            }
+            
+            self.tableView.reloadData()
         }
     }
     
