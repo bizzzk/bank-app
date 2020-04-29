@@ -9,11 +9,9 @@
 import UIKit
 
 class CustomTitleCell: UITableViewCell {
-    
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var imageOfTitle: UIImageView!
     @IBOutlet weak var borderView: UIView!
     
-    
 }
-

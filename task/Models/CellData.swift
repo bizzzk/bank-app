@@ -9,7 +9,7 @@
 import Foundation
 
 struct cellData {
-    var opened = Bool()
+    var isOpened = Bool()
     var title = String()
     var sectionData = [String]()
     var image = String()

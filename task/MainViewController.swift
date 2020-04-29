@@ -36,7 +36,7 @@ class MainViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableViewData[section].opened == true {
+        if tableViewData[section].isOpened == true {
             return tableViewData[section].sectionData.count + 1
         } else {
             return 1
@@ -53,10 +53,11 @@ class MainViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Title") as! CustomTitleCell
             cell.titleLabel?.text = tableViewData[indexPath.section].title
             cell.imageOfTitle?.image = UIImage(named:"arrow2")
-            if tableViewData[indexPath.section].opened == true {
+            if tableViewData[indexPath.section].isOpened == true {
                 cell.imageOfTitle?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi)
                 cell.borderView.round(with: .top, radius: 10.0)
             } else {
+                cell.imageOfTitle?.transform = CGAffineTransform(rotationAngle: 0)
                 cell.borderView.round(with: .both, radius: 10.0)
             }
             return cell
@@ -68,6 +69,8 @@ class MainViewController: UITableViewController {
             let lastRowInSection = tableViewData[indexPath.section].sectionData.count
             if  indexPath.row == lastRowInSection {
                 cell.borderView.round(with: .bottom, radius: 10.0)
+            } else {
+                cell.borderView.round(with: .none, radius: 0)
             }
             return cell
         }
@@ -75,12 +78,12 @@ class MainViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            if tableViewData[indexPath.section].opened == true {
-                tableViewData[indexPath.section].opened = false
+            if tableViewData[indexPath.section].isOpened == true {
+                tableViewData[indexPath.section].isOpened = false
                 let sections = IndexSet.init(integer: indexPath.section)
                 tableView.reloadSections(sections, with: .none)
             } else {
-                tableViewData[indexPath.section].opened = true
+                tableViewData[indexPath.section].isOpened = true
                 let sections = IndexSet.init(integer: indexPath.section)
                 tableView.reloadSections(sections, with: .none)
             }
@@ -118,8 +121,8 @@ extension MainViewController {
                 let creditProduct = ["выплата заработной платы", "ПОТРЕБИТЕЛЬСКИЙ КРЕДИТ"]
                 let contributionProduct = ["ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ"]
                 
-                self.tableViewData = [cellData(opened: false, title: titles[0], sectionData: creditProduct, image: "creditProduct", cashBalance: credit),
-                                      cellData(opened: false, title: titles[1], sectionData: contributionProduct, image: "contributionProduct", cashBalance: contribution)]
+                self.tableViewData = [cellData(isOpened: false, title: titles[0], sectionData: creditProduct, image: "creditProduct", cashBalance: credit),
+                                      cellData(isOpened: false, title: titles[1], sectionData: contributionProduct, image: "contributionProduct", cashBalance: contribution)]
             }
             
             self.tableView.reloadData()

@@ -16,4 +16,3 @@ class CustomProductCell: UITableViewCell {
     @IBOutlet weak var borderView: UIView!
     
 }
-
