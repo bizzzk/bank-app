@@ -8,10 +8,8 @@
 
 import Foundation
 
-struct cellData {
+struct CellData {
+    var cellInfo = [CellInfo]()
     var isOpened = Bool()
-    var title = String()
-    var sectionData = [String]()
     var image = String()
-    var cashBalance = [String]()
 }

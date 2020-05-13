@@ -8,13 +8,11 @@
 
 import UIKit
 
-class MainViewController: UITableViewController {
+final class MainViewController: UITableViewController {
     
-    
-    let networkDataFetcher = NetworkDataFetcher()
-    var balanceResponse: [BalanceResponse?] = []
-    var tableViewData = [cellData]()
-
+    private let networkDataFetcher = NetworkDataFetcher()
+    private var balanceResponse: BalanceResponse?
+    private var tableViewData = [CellData]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +20,8 @@ class MainViewController: UITableViewController {
         self.navigationController?.navigationBar.barStyle = UIBarStyle.blackTranslucent
         self.navigationController?.navigationBar.barTintColor = UIColor.orange
         navigationItem.title = "Главная"
-        
-        setupCellData()
 
+        setupCellData()
     }
 
     
@@ -36,8 +33,8 @@ class MainViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableViewData[section].isOpened == true {
-            return tableViewData[section].sectionData.count + 1
+        if tableViewData[section].isOpened {
+            return tableViewData[section].cellInfo.count + 1
         } else {
             return 1
         }
@@ -48,82 +45,46 @@ class MainViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let currentIndexPath = indexPath.row - 1
+        let section = tableViewData[indexPath.section]
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Title") as! CustomTitleCell
-            cell.titleLabel?.text = tableViewData[indexPath.section].title
-            cell.imageOfTitle?.image = UIImage(named:"arrow2")
-            if tableViewData[indexPath.section].isOpened == true {
-                cell.imageOfTitle?.transform = CGAffineTransform(rotationAngle: -CGFloat.pi)
-                cell.borderView.round(with: .top, radius: 10.0)
-            } else {
-                cell.imageOfTitle?.transform = CGAffineTransform(rotationAngle: 0)
-                cell.borderView.round(with: .both, radius: 10.0)
-            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Title") as! TitleCell
+            cell.bind(indexPath: indexPath)
+            cell.borderSectionSetup(object: section)
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Product") as! CustomProductCell
-            cell.productName?.text = tableViewData[indexPath.section].sectionData[currentIndexPath]
-            cell.imageOfProduct?.image = UIImage(named: tableViewData[indexPath.section].image)
-            cell.cashBalance?.text = tableViewData[indexPath.section].cashBalance[currentIndexPath]
-            let lastRowInSection = tableViewData[indexPath.section].sectionData.count
-            if  indexPath.row == lastRowInSection {
-                cell.borderView.round(with: .bottom, radius: 10.0)
-            } else {
-                cell.borderView.round(with: .none, radius: 0)
-            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Product") as! ProductCell
+            cell.bind(object: section, indexPath: indexPath)
+            cell.borderSectionSetup(object: section, indexPath: indexPath)
+            
             return cell
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            if tableViewData[indexPath.section].isOpened == true {
-                tableViewData[indexPath.section].isOpened = false
-                let sections = IndexSet.init(integer: indexPath.section)
-                tableView.reloadSections(sections, with: .none)
-            } else {
-                tableViewData[indexPath.section].isOpened = true
-                let sections = IndexSet.init(integer: indexPath.section)
-                tableView.reloadSections(sections, with: .none)
-            }
-        }
+        let section = indexPath.section
+        tableViewData[section].isOpened = !tableViewData[section].isOpened
+        
+        let sections = IndexSet.init(integer: section)
+        tableView.reloadSections(sections, with: .none)
     }
     
 }
 
 extension MainViewController {
     
-    func setupCellData() {
-        let urlString = "https://next.json-generator.com/api/json/get/VJrb6Ut_O"
+    private func setupCellData() {
+        let urlString = "https://next.json-generator.com/api/json/get/EJSdpaN5_"
         
         networkDataFetcher.fetchData(urlString: urlString) { (balanceResponse) in
             guard let balanceResponse = balanceResponse else { return }
             self.balanceResponse = balanceResponse
-            
-            for value in balanceResponse  {
-                
-                var credit = [String]()
-                var contribution = [String]()
-                
-                for value in value.creditValues {
-                    credit.append(value.cashBalance)
-                    credit.append(value.creditBalance)
-                }
-                
-                for value in value.contributionValues {
-                    contribution.append(value.contributionInRUB)
-                    contribution.append(value.contributionInUSD)
-                    contribution.append(value.contributionInEUR)
-                }
-                
-                let titles = ["Кредиты", "Вклады"]
-                let creditProduct = ["выплата заработной платы", "ПОТРЕБИТЕЛЬСКИЙ КРЕДИТ"]
-                let contributionProduct = ["ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ", "ВКЛАД ДО ВОСТРЕБОВАНИЯ"]
-                
-                self.tableViewData = [cellData(isOpened: false, title: titles[0], sectionData: creditProduct, image: "creditProduct", cashBalance: credit),
-                                      cellData(isOpened: false, title: titles[1], sectionData: contributionProduct, image: "contributionProduct", cashBalance: contribution)]
-            }
+
+            self.tableViewData = [CellData(cellInfo: balanceResponse.credit,
+                                           isOpened: false,
+                                           image: "creditProduct"),
+                                  CellData(cellInfo: balanceResponse.contribution,
+                                           isOpened: false,
+                                           image: "contributionProduct")]
             
             self.tableView.reloadData()
         }

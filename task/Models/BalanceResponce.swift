@@ -9,21 +9,32 @@
 import Foundation
 
 struct BalanceResponse: Decodable {
-    
-    var creditValues: [CreditBalance]
-    var contributionValues: [ContributionBalance]
-    
+    var credit: [CellInfo]
+    var contribution: [CellInfo]
 }
 
-struct CreditBalance: Decodable {
-    
-    var cashBalance: String
-    var creditBalance: String
+enum Currency: String {
+    case RUB
+    case USD
+    case EUR
 }
 
-struct ContributionBalance: Decodable {
+struct CellInfo: Decodable {
+    var title: String?
+    var amount: String?
+    var currency: Currency?
     
-    var contributionInUSD: String
-    var contributionInEUR: String
-    var contributionInRUB: String
+    private enum CodingKeys: String, CodingKey {
+        case title
+        case amount
+        case currency
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        title = try container.decode(String.self, forKey: .title)
+        amount = try container.decode(String.self, forKey: .amount)
+        currency = Currency(rawValue: try container.decode(String.self, forKey: .currency))
+    }
+
 }

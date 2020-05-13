@@ -19,7 +19,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="first" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Title" rowHeight="44" id="yVD-cX-TSv" customClass="CustomTitleCell" customModule="task" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="first" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Title" rowHeight="44" id="yVD-cX-TSv" customClass="TitleCell" customModule="task" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="yVD-cX-TSv" id="8Ng-EY-bPo">
@@ -71,7 +71,7 @@
                                     <outlet property="titleLabel" destination="IdH-am-1XR" id="pRp-Ra-KjZ"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="second" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Product" rowHeight="64" id="kAH-zE-ldO" customClass="CustomProductCell" customModule="task" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="second" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Product" rowHeight="64" id="kAH-zE-ldO" customClass="ProductCell" customModule="task" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="99.5" width="375" height="64"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kAH-zE-ldO" id="QGd-xK-sSI">
@@ -84,7 +84,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="glz-uP-n63">
                                                     <rect key="frame" x="8" y="16.5" width="36" height="36"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="productName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMd-Ht-CWA">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="productName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMd-Ht-CWA">
                                                     <rect key="frame" x="53" y="24" width="192" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <nil key="textColor"/>
@@ -99,6 +99,7 @@
                                             </subviews>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="zRe-lQ-FWf" secondAttribute="trailing" constant="8" id="4Mj-1A-loO"/>
                                                 <constraint firstAttribute="bottom" secondItem="RMd-Ht-CWA" secondAttribute="bottom" constant="19" id="5EA-Dc-0by"/>
                                                 <constraint firstItem="glz-uP-n63" firstAttribute="leading" secondItem="qXV-d8-1CX" secondAttribute="leading" constant="8" id="6x0-Ks-HuX"/>
                                                 <constraint firstItem="RMd-Ht-CWA" firstAttribute="top" secondItem="qXV-d8-1CX" secondAttribute="top" constant="24" id="7jF-Mn-PP1"/>
